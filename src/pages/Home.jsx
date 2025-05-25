@@ -1,25 +1,21 @@
-
 import { Carrousel } from "../components/Carrousel.jsx";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useEffect } from "react";
-import { FetchAPI } from "../components/FetchAPI.jsx";
+import { fetchCharacters, fetchPlanets, fetchVehicles } from "../hooks/FetchAPI.jsx";
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
 
 	useEffect(() => {
 		const loadData = async () => {
-			const characters = await fetchEntity("people");
+			const characters = await fetchCharacters();
 			dispatch({ type: "SET_CHARACTERS", payload: characters });
 
-			const planets = await fetchEntity("planets");
+			const planets = await fetchPlanets();
 			dispatch({ type: "SET_PLANETS", payload: planets });
 
-			const vehicles = await fetchEntity("vehicles");
+			const vehicles = await fetchVehicles();
 			dispatch({ type: "SET_VEHICLES", payload: vehicles });
-
-
-
 		};
 
 		loadData();
@@ -31,4 +27,4 @@ export const Home = () => {
 			<Carrousel />
 		</div>
 	);
-}; 
+};
