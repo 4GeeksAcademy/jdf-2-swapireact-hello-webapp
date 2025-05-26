@@ -2,6 +2,23 @@ import React from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Link } from "react-router-dom";
 
+
+const getImageUrl = (type, name) => {
+    const baseUrl = "https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img";
+    const formatName = name.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9\-]/g, "");
+
+    switch (type) {
+        case "people":
+            return `${baseUrl}/characters/${formatName}.jpg`;
+        case "planets":
+            return `${baseUrl}/planets/${formatName}.jpg`;
+        case "vehicles":
+            return `${baseUrl}/vehicles/${formatName}.jpg`;
+    
+    }
+};
+
+
 export const Carrousel = () => {
     const { store, dispatch } = useGlobalReducer();
 
@@ -16,16 +33,15 @@ export const Carrousel = () => {
             <div className="col-md-4 mb-3" key={index}>
                 <div className="card bg-dark text-white" style={{ width: "18rem" }}>
                     <img
-                        src={`https://starwars-visualguide.com/assets/img/${type}/${item.uid}.jpg`}
+                        src={getImageUrl(type, item.name)}
                         className="card-img-top"
                         alt={item.name}
-                        onError={(e) =>
-                            (e.target.src =
-                                "https://starwars-visualguide.com/assets/img/big-placeholder.jpg")
-                        }
+                       
                     />
+
                     <div className="card-body">
                         <h5 className="card-title">{item.name}</h5>
+                        <p>Lorem ipsum wingardium leviosa morituri salutant est Lorem ipsum wingardium leviosa morituri salutant est </p>
                         <div className="d-flex justify-content-between">
                             <Link to={`/single/${type}/${item.uid}`} className="btn btn-warning">
                                 Details
@@ -42,6 +58,7 @@ export const Carrousel = () => {
             </div>
         ));
     };
+
 
     return (
         <div className="container">
